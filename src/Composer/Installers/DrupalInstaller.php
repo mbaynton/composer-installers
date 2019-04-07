@@ -15,4 +15,14 @@ class DrupalInstaller extends BaseInstaller
         'custom-profile'   => 'profiles/custom/{$name}/',
         'drupal-multisite' => 'sites/{$name}/'
     );
+
+    public function inflectPackageVars($vars)
+    {
+        $vars = parent::inflectPackageVars($vars);
+        $cwd = getcwd();
+        if (is_link("$cwd/inactive")) {
+          $vars['inactive'] = readlink("$cwd/inactive");
+        }
+        return $vars;
+    }
 }
